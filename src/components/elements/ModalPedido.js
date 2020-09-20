@@ -7,14 +7,18 @@ const propTypes = {
   handleClose: PropTypes.func.isRequired,
   show: PropTypes.bool.isRequired,
   closeHidden: PropTypes.bool,
-  pedido: PropTypes.string
+  numped: PropTypes.string,
+  pedido:PropTypes.array,
+  detallep:PropTypes.array
 }
 
 const defaultProps = {
   children: null,
   show: false,
   closeHidden: false,
-  pedido: ""
+  numped: "",
+  pedido: [],
+  detallep: []
 }
 
 const Modal = ({
@@ -23,9 +27,13 @@ const Modal = ({
   handleClose,
   show,
   closeHidden,
+  numped,
   pedido,
+  detallep,
   ...props
 }) => {
+
+  
 
   useEffect(() => {
     document.addEventListener('keydown', keyPress);
@@ -66,14 +74,28 @@ const Modal = ({
   return (
     <>
       {show &&
+        
         <div
           {...props}
           className={classes}
           onClick={handleClose}
         >
-          <div className="modal-inner">
-            Hola es lepdido es {pedido}
-          </div>
+          
+            <div className="cta-inner section-inner">
+              {
+                pedido.map( (item) => 
+                    <label key="item.id"> Pedido N°{item.id} - {item.cliente_nombre} - {item.fecha}</label>
+                )
+              }  
+              <ul>             
+                {
+                  detallep.map( (sub) => 
+                  <li> Pedido N°{sub.articulo_nombre}</li>
+                )
+                }
+              </ul>         
+            </div>
+            
         </div>
       }
     </>

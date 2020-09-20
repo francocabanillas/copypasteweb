@@ -29,10 +29,22 @@ const Cta = ({
 
   const [pedidoModalActive, setPedidoModalActive] = useState(false);
   const [numPedido, setNumPedido] = useState("");
+  const [pedido, setPedido] = useState([]);
+  const [detalle, setDetalle] = useState([]);
 
+  const obtenerDatos = async(numero) => {
+    console.log('http://copypaste.atwebpages.com/index.php/pedido/'+numero)
+    const data = await fetch('http://copypaste.atwebpages.com/index.php/pedido/'+numero)
+    const ped = await data.json()
+    setPedido(ped)
+    if (ped[0]) 
+    setDetalle(ped[0].detalle)
+    
+  }
 
   const openModal = (e) => {
     e.preventDefault();
+    obtenerDatos(numPedido)
     setPedidoModalActive(true);
   }
   
@@ -68,11 +80,11 @@ const Cta = ({
         >
           <div className="cta-slogan">
             <h3 className="m-0">
-              ¿Tienes un pedido pendiente? {numPedido}
+              ¿Tienes un pedido pendiente?
               </h3>
           </div>
           <div className="cta-action">
-            <Input id="buscar" type="number" placeholder="N° de pedido" value={setNumPedido} />
+            <Input type="number" required onChange={(e) => setNumPedido(e.target.value)}  placeholder="N° de pedido" />
           </div>
           <button className="button" onClick={openModal} >Buscar</button>
         </div>
@@ -80,7 +92,9 @@ const Cta = ({
             id="video-modal"
             show={pedidoModalActive}
             handleClose={closeModal}
-            pedido={numPedido} />
+            numped={numPedido}
+            pedido={pedido}
+            detallep={detalle}/>
       </div>
     </section>
   );

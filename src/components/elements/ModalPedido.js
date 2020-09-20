@@ -90,7 +90,7 @@ const Modal = ({
               <ul>             
                 {
                   detallep.map( (sub) => 
-                  <li> Pedido N°{sub.articulo_nombre}</li>
+                  <li> {sub.articulo_nombre} - cant: {sub.cantidad} - precio: {sub.precio} </li>
                 )
                 }
               </ul>         
